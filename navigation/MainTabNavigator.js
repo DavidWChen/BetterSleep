@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import GyroScreen from '../screens/GyroScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -39,6 +40,20 @@ LinksStack.navigationOptions = {
   ),
 };
 
+const GyroStack = createStackNavigator({
+  Links: GyroScreen,
+});
+
+GyroStack.navigationOptions = {
+  tabBarLabel: 'Gyro',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+    />
+  ),
+};
+
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
 });
@@ -57,4 +72,5 @@ export default createBottomTabNavigator({
   HomeStack,
   LinksStack,
   SettingsStack,
+  GyroStack,
 });
