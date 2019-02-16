@@ -69,8 +69,8 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
   MusicStack,
+  HomeStack,
   SettingsStack,
   GyroStack,
 });
