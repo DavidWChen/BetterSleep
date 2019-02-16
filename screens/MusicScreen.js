@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, View, StyleSheet, Button, TouchableHighlight, Image} from 'react-native';
+import { ScrollView, Text, View, StyleSheet, Button, TouchableHighlight, Image } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { Constants, Video, Audio, Asset } from 'expo';
 
@@ -19,11 +19,11 @@ const ICON_STOP_BUTTON = new Icon(require('../assets/images/stop_button.png'), 2
 const BACKGROUND_COLOR = '#FFF8ED';
 
 export default class LinksScreen extends React.Component {
-   constructor(props) {
+  constructor(props) {
     super(props);
     this.soundtrack = null;
     this.state = {
-      volume: 1.0, 
+      volume: 1.0,
       isPlaying: false,
     }
   };
@@ -31,10 +31,10 @@ export default class LinksScreen extends React.Component {
     title: 'Music',
   };
 
-  playSoundtrack = async() => {
+  playSoundtrack = async () => {
     this.soundtrack = new Audio.Sound();
     try {
-      await this.soundtrack.loadAsync(require('../assets/music/TakeMe.mp3'), {isPlaying: false}, true)
+      await this.soundtrack.loadAsync(require('../assets/music/TakeMe.mp3'), { isPlaying: false }, true)
       await this.soundtrack.setIsMutedAsync(false);
       await this.soundtrack.setVolumeAsync(0.5);
       //await soundtrack.playAsync();
@@ -45,17 +45,17 @@ export default class LinksScreen extends React.Component {
 
   _onPlayPausePressed = () => {
     if (this.soundtrack != null) {
-      console.log ("soundtrack is NOT null");
+      console.log("soundtrack is NOT null");
       if (this.state.isPlaying) {
         this.soundtrack.pauseAsync();
-        this.setState({isPlaying: false})
+        this.setState({ isPlaying: false })
       } else {
         this.soundtrack.playAsync();
-        this.setState({isPlaying: true})
+        this.setState({ isPlaying: true })
       }
     }
     else {
-      console.log ("soundtrack is null");
+      console.log("soundtrack is null");
     }
   };
 
@@ -63,21 +63,25 @@ export default class LinksScreen extends React.Component {
     if (this.soundtrack != null) {
       console.log("stop sound");
       this.soundtrack.stopAsync();
-      this.setState({isPlaying: false})
+      this.setState({ isPlaying: false })
     }
     else {
       console.log("sound null")
     }
   };
 
-  _onVolumeSliderValueChange = value => {
+  _onVolumeSliderValueChange = () => {
     if (this.soundtrack != null) {
-      this.soundtrack.setVolumeAsync(value);
+      this.setState({
+        volume: (global.volume / 100)
+      })
+
+      this.soundtrack.setVolumeAsync(this.state.volume);
     }
   };
 
   componentDidMount() {
-     Audio.setAudioModeAsync({
+    Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
       playsInSilentModeIOS: true,
@@ -85,7 +89,9 @@ export default class LinksScreen extends React.Component {
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: false,
     });
-      this.playSoundtrack();
+
+    setInterval(() => this._onVolumeSliderValueChange(), 500);
+    this.playSoundtrack();
   }
 
   render() {
@@ -93,30 +99,36 @@ export default class LinksScreen extends React.Component {
     return (
 
       <ScrollView style={styles.container}>
-         <View style={styles.playStopContainer}>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
-                style={styles.wrapper}
-                onPress={this._onPlayPausePressed}
-               >
-                <Image
-                  style={styles.image}
-                  source={this.state.isPlaying ? ICON_PAUSE_BUTTON.module : ICON_PLAY_BUTTON.module}
-                />
-              </TouchableHighlight>
-              <TouchableHighlight
-                underlayColor={BACKGROUND_COLOR}
-                style={styles.wrapper}
-                onPress={this._onStopPressed}
-                >
-                <Image style={styles.image} source={ICON_STOP_BUTTON.module} />
-              </TouchableHighlight>
-            </View>
+        <View style={styles.playStopContainer}>
+          <TouchableHighlight
+            underlayColor={BACKGROUND_COLOR}
+            style={styles.wrapper}
+            onPress={this._onPlayPausePressed}
+          >
+            <Image
+              style={styles.image}
+              source={this.state.isPlaying ? ICON_PAUSE_BUTTON.module : ICON_PLAY_BUTTON.module}
+            />
+          </TouchableHighlight>
+          <TouchableHighlight
+            underlayColor={BACKGROUND_COLOR}
+            style={styles.wrapper}
+            onPress={this._onStopPressed}
+          >
+            <Image style={styles.image} source={ICON_STOP_BUTTON.module} />
+
+          </TouchableHighlight>
+        </View>
 
       </ScrollView>
     );
   }
+
+
+
+
 }
+
 
 const styles = StyleSheet.create({
   container: {

@@ -5,7 +5,7 @@ import { Accelerometer } from 'expo';
 global.volume = 100;//better to see current volume
 //const math = require('mathjs');
 sample = [];
-timer =0;
+timer = 0;
 export default class AccelerometerSensor extends React.Component {
   state = {
     accelerometerData: {},
@@ -28,7 +28,7 @@ export default class AccelerometerSensor extends React.Component {
   }
 
   _slow = () => {
-    Accelerometer.setUpdateInterval(1000); 
+    Accelerometer.setUpdateInterval(1000);
   }
 
   _fast = () => {
@@ -39,18 +39,18 @@ export default class AccelerometerSensor extends React.Component {
     this._subscription = Accelerometer.addListener(accelerometerData => {
       this.setState({ accelerometerData });
       sample.push(accelerometerData.x + accelerometerData.y + accelerometerData.z);
-      if (sample.length >= 20){
+      if (sample.length >= 20) {
         sample.shift();
       }
       console.log(standardDev(sample));
 
-      if (standardDev(sample)< 0.01){
+      if (standardDev(sample) < 0.01) {
         timer++;
-        if (timer > 10){
-          timer=0;
-          if (volume > 0) {volume--;}
-          else{volume = 0;}
-      }
+        if (timer > 10) {
+          timer = 0;
+          if (volume > 0) { volume -= 5; }
+          else { volume = 0; }
+        }
       }
 
     });
@@ -74,15 +74,15 @@ export default class AccelerometerSensor extends React.Component {
   }
 }
 
-function standardDev(values){
+function standardDev(values) {
   var avg = average(values);
-  
-  var squareDiffs = values.map(function(value){
+
+  var squareDiffs = values.map(function (value) {
     var diff = value - avg;
     var sqrDiff = diff * diff;
     return sqrDiff;
   });
-  
+
   var avgSquareDiff = average(squareDiffs);
 
   var stdDev = Math.sqrt(avgSquareDiff);
@@ -90,9 +90,9 @@ function standardDev(values){
   return stdDev;
 }
 
-function average(data){
+function average(data) {
   //console.log(data);
-  var sum = data.reduce(function(sum, value){
+  var sum = data.reduce(function (sum, value) {
     return sum + value;
   }, 0);
 
