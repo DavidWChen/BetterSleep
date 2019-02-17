@@ -269,6 +269,9 @@ export default class LinksScreen extends React.Component {
     return (
 
       <ScrollView style={styles.container}>
+        <View style={styles.musicBGcontainer}>
+          <Image style={styles.musicBG} source={require("../assets/images/musicbg.jpg")}></Image>
+        </View>
         <View style={styles.playStopContainer}>
 
           <TouchableHighlight
@@ -276,7 +279,7 @@ export default class LinksScreen extends React.Component {
             style={styles.wrapper}
             onPress={this._onPlayPausePressed}
           >
-            <Feather name={this.state.isPlaying ? "pause-circle" : "play-circle"} size={60} color="black" style={styles.iconStyle} />
+            <Feather name={this.state.isPlaying ? "pause-circle" : "play-circle"} size={60} color="white" style={styles.iconStyle} />
 
           </TouchableHighlight>
 
@@ -286,7 +289,7 @@ export default class LinksScreen extends React.Component {
               style={styles.wrapper}
               onPress={this._onRecordPressed}
               disabled={this.state.isLoading}>
-              <Feather name={"mic"} size={60} color="black" style={styles.iconStyle} />
+              <Feather name={"mic"} size={60} color="white" style={styles.iconStyle} />
             </TouchableHighlight>
             <View style={styles.recordingDataContainer}>
               <View />
@@ -309,7 +312,7 @@ export default class LinksScreen extends React.Component {
             style={styles.wrapper}
             onPress={this._onStopPressed}
           >
-            <Feather name={"stop-circle"} size={60} color="black" style={styles.iconStyle} />
+            <Feather name={"stop-circle"} size={60} color="white" style={styles.iconStyle} />
 
           </TouchableHighlight>
 
@@ -328,10 +331,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#000005',
   },
   iconStyle: {
     margin: 20,
+  },
+  musicBG: {
+    flex: 1,
+    marginTop: 30,
+    width: 220,
+    height: 220,
+    resizeMode: 'contain',
+    borderRadius: 200,
+  },
+  musicBGcontainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   playStopContainer: {
     flexDirection: 'row',
