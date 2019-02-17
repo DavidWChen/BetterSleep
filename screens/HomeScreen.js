@@ -13,13 +13,14 @@ import {
 import { WebBrowser, Font } from 'expo';
 
 import { MonoText } from '../components/StyledText';
-
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
 
-
+  _startListening = () => {
+    global.volume=100;
+  };
 
   render() {
     return (
@@ -33,7 +34,10 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.BetterSleepDescription}>- Some interesting stuff ...</Text>
           </View>
           <View style={styles.activateButtonContainer} >
-            <TouchableOpacity style={styles.activateButton}>
+            <TouchableOpacity 
+              style={styles.activateButton}
+              onPress={this._startListening}
+            >
               <Text style={styles.activateButtonText}>Play Music</Text>
             </TouchableOpacity>
           </View>
@@ -94,7 +98,6 @@ const styles = StyleSheet.create({
   BetterSleepDescription: {
     marginTop: 30,
     fontSize: 18,
-    fontFamily: 'serif',
     color: '#fff',
     marginLeft: '10%',
     marginRight: '10%',
