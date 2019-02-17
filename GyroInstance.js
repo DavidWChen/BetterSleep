@@ -6,6 +6,7 @@ global.volume = 100;//better to see current volume
 //const math = require('mathjs');
 sample = [];
 timer = 0;
+//timerA=0;
 
   let state = {
     accelerometerData: {},
@@ -47,6 +48,19 @@ timer = 0;
           else { volume = 0; }
         }
       }
+      /*
+      var d = new Date();
+      if (global.alarm && global.startAlarm < currTime && currTime < global.endAlarm){
+        if (standardDev(sample) > 0.01){
+          timerA++;
+          if (timer > 10) {
+            timer = 0;
+            if (volume < 100) { volume += 5; }
+            else { volume = 100; }
+          }
+        }
+      }*/
+     
 
     });
   }

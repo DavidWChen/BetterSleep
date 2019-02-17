@@ -1,12 +1,12 @@
 import React from 'react';
-import { ScrollView, Text, View, StyleSheet, Button, TouchableHighlight, Image } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, Button, TouchableOpacity,TouchableHighlight, Image } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { Constants, FileSystem, Video, Audio, Asset, Permissions } from 'expo';
-import { FontAwesome, Feather } from '@expo/vector-icons';
+import { FontAwesome, Feather, MaterialIcons } from '@expo/vector-icons';
 
 import { _subscribe } from '../GyroInstance';
 
-
+global.ifAlarm=1;
 
 class Icon {
   constructor(module, width, height) {
@@ -38,6 +38,7 @@ export default class LinksScreen extends React.Component {
       isRecording: false,
       haveRecordingPermissions: false,
       isLoading: false,
+      ifAlarm: false,
     }
     this.recordingSettings = {
       android: {
@@ -149,6 +150,19 @@ export default class LinksScreen extends React.Component {
         this._stopRecordingAndEnablePlayback();
       }
     }
+  };
+
+  _setAlarm = () => {
+    if (this.state.ifAlarm){
+      console.log("turn off");
+      this.setState({ifAlarm: false});
+    }
+    else {
+      this.setState({ifAlarm: true});
+    console.log("turn on");}
+        
+
+
   };
 
   async _stopPlaybackAndBeginRecording() {
@@ -285,11 +299,24 @@ export default class LinksScreen extends React.Component {
   render() {
 
     return (
+        
 
       <ScrollView style={styles.container}>
+        <View >
+          <TouchableHighlight 
+            underlayColor={BACKGROUND_COLOR}
+            style={styles.wrapper}
+            onPress={this._setAlarm}
+          >
+            <MaterialIcons name={this.state.ifAlarm ? "alarm" : "alarm-off"} size={60} color="white" 
+              style={styles.alarm} 
+            />
+          </TouchableHighlight>
+        </View>
         <View style={styles.musicBGcontainer}>
           <Image style={styles.musicBG} source={require("../assets/images/musicbg1.png")}></Image>
           <Text style={styles.musicText}>Music</Text>
+
         </View>
         <View style={styles.playStopContainer}>
 
@@ -315,7 +342,7 @@ export default class LinksScreen extends React.Component {
               <Text style={styles.liveText}>
                 {this.state.isRecording ? 'LIVE' : ''}
               </Text>
-              <View />
+
             </View>
           </View>
 
@@ -382,5 +409,10 @@ const styles = StyleSheet.create({
   },
   image: {
     backgroundColor: BACKGROUND_COLOR,
+  },
+  alarm: {
+    position: 'absolute', 
+    top: 0,
+    right: 0,
   },
 });
