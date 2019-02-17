@@ -1,12 +1,13 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-
+import { FontAwesome, Feather, MaterialIcons } from '@expo/vector-icons';
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import MusicScreen from '../screens/MusicScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import GyroScreen from '../screens/GyroScreen';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -16,14 +17,7 @@ export const HomeStack = createStackNavigator({
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
+    <Feather name={"home"} size={30} color="black" />
   ),
 };
 
@@ -34,10 +28,7 @@ const MusicStack = createStackNavigator({
 MusicStack.navigationOptions = {
   tabBarLabel: 'Music',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
+    <Feather name={"music"} size={30} color="black" />
   ),
 };
 
@@ -60,18 +51,16 @@ const SettingsStack = createStackNavigator({
 });
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+  tabBarLabel: 'Alarm',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
+    <Ionicons name={"md-alarm"} size={30} color="black" />
   ),
 };
 
 
 export const MainStack = createBottomTabNavigator({
   MusicStack,
+  HomeStack,
   SettingsStack,
 });
 
