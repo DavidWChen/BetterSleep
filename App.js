@@ -33,7 +33,11 @@ export default class App extends React.Component {
   _loadResourcesAsync = async () => {
     
     const objectsToLoad = {
-      'songA': require('./assets/music/TakeMe.mp3')
+      'songA': require('./assets/music/TakeMe.mp3'),
+      'songB': require('./assets/music/seoul.mp3'),
+      'songC': require('./assets/music/tapedupheart.mp3'),
+      'songD': require('./assets/music/nobodyComparesToYou.mp3')
+
     }
     
     for (const key of Object.keys(objectsToLoad)) {

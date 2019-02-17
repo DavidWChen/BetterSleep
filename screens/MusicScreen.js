@@ -265,7 +265,7 @@ export default class LinksScreen extends React.Component {
     //   playThroughEarpieceAndroid: false,
     // });
 
-    this.soundtrack = musicThings.songA;    
+    this.soundtrack = musicThings.songB;    
     //await this.soundtrack.setPositionAsync(0);
 
     setInterval(() => this._onVolumeSliderValueChange(), 500);
