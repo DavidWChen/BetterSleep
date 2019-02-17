@@ -1,7 +1,10 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+import { AppLoading, Audio, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+
+
+global.musicThings = {};
 
 export default class App extends React.Component {
   state = {
@@ -28,7 +31,24 @@ export default class App extends React.Component {
   }
 
   _loadResourcesAsync = async () => {
+    
+    const objectsToLoad = {
+      'songA': require('./assets/music/TakeMe.mp3')
+    }
+    
+    for (const key of Object.keys(objectsToLoad)) {
+      const resource = objectsToLoad[key];
+      await Asset.fromModule(resource).downloadAsync();
+      const {sound} = await Audio.Sound.createAsync(resource, { volume: 1 });
+
+      musicThings[key] = sound;
+    
+      // await musicThings[key].loadAsync(resource, {});
+      // musicThings[key].setVolumeAsync(1)
+    }
+
     return Promise.all([
+      ,
       Asset.loadAsync([
         require('./assets/images/robot-dev.png'),
         require('./assets/images/robot-prod.png'),

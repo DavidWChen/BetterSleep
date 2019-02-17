@@ -12,6 +12,8 @@ class Icon {
     Asset.fromModule(this.module).downloadAsync();
   }
 }
+// CHANGE THIS IS YOU ARE CONNECTING TO ANOTHER LAPTOP 
+const API_URL = 'http://10.19.191.201:3000';
 
 const ICON_RECORD_BUTTON = new Icon(require('../assets/images/record_button.png'), 70, 119);
 const ICON_RECORDING = new Icon(require('../assets/images/record_icon.png'), 20, 14);
@@ -64,25 +66,29 @@ export default class LinksScreen extends React.Component {
     title: 'Music',
   };
 
-  playSoundtrack = async () => {
-    this.soundtrack = new Audio.Sound();
-    try {
-      await this.soundtrack.loadAsync(require('../assets/music/TakeMe.mp3'), { isPlaying: false }, true)
-      await this.soundtrack.setIsMutedAsync(false);
-      await this.soundtrack.setVolumeAsync(0.5);
-      //await soundtrack.playAsync();
-    } catch (err) {
-      alert(err.message)
-    }
-  };
+  // playSoundtrack = async () => {
+  //   this.soundtrack = musicThings.songA;
+  //   try {
+  //             await soundtrack.setPositionAsync(0);
+
+  //     // await this.soundtrack.loadAsync(require('../assets/music/TakeMe.mp3'), {}, true)
+  //     // await this.soundtrack.setIsMutedAsync(false);
+  //     // await this.soundtrack.setPosition(0);
+  //     await soundtrack.playAsync();
+  //   } catch (err) {
+  //     alert(err.message)
+  //   }
+  // };
 
   _onPlayPausePressed = () => {
     if (this.soundtrack != null) {
       console.log("soundtrack is NOT null");
       if (this.state.isPlaying) {
+        console.log("It's playing");
         this.soundtrack.pauseAsync();
         this.setState({ isPlaying: false })
       } else {
+        console.log("It's NOT playing");
         this.soundtrack.playAsync();
         this.setState({ isPlaying: true })
       }
@@ -152,6 +158,14 @@ export default class LinksScreen extends React.Component {
     //   this.recording = null;
     // }
 
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+      playsInSilentModeIOS: true,
+      shouldDuckAndroid: true,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      playThroughEarpieceAndroid: true,
+    });
     const recording = new Audio.Recording();
     await recording.prepareToRecordAsync(this.recordingSettings);
     recording.setOnRecordingStatusUpdate(this._updateScreenForRecordingStatus);
@@ -164,17 +178,7 @@ export default class LinksScreen extends React.Component {
   }
   async _sendAudioAsync(uri) {
     // CHNAGE THIS !!!!
-    let apiUrl = 'http://10.19.189.116:3000';
-    // 
-
-    // Note:
-    // Uncomment this if you want to experiment with local server
-    //
-    // if (Constants.isDevice) {
-    //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
-    // } else {
-    //   apiUrl = `http://localhost:3000/upload`
-    // }
+    let apiUrl = API_URL;
 
     let uriParts = uri.split('.');
     let fileType = uriParts[uriParts.length - 1];
@@ -212,20 +216,21 @@ export default class LinksScreen extends React.Component {
     const info = await FileSystem.getInfoAsync(this.recording.getURI());
     console.log ("finsihed recording")
     console.log(`FILE INFO:`,info);
-    // const { sound, status } = await this.recording.createNewLoadedSound(
-    //   {
-    //     isLooping: true,
-    //     isMuted: this.state.muted,
-    //     volume: this.state.volume,
-    //     rate: this.state.rate,
-    //     shouldCorrectPitch: this.state.shouldCorrectPitch,
-    //   },
-    //   this._updateScreenForSoundStatus
-    // );
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+      playsInSilentModeIOS: true,
+      playsInSilentLockedModeIOS: true,
+      shouldDuckAndroid: true,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      playThroughEarpieceAndroid: true,
+    });
     let sendresult;
     try {
       sendresult = await this._sendAudioAsync(info.uri);
       console.log({ sendresult });
+      console.log("Here is the body text");
+      console.log( sendresult._bodyText);
   } catch({ message }) {
     console.log({ message });
   } finally {
@@ -233,24 +238,24 @@ export default class LinksScreen extends React.Component {
     this.setState({
       isLoading: false,
     });
+  }  
   }
-    
-  }
-
-
 
   async componentDidMount() {
-    await Audio.setAudioModeAsync({
-      allowsRecordingIOS: true,
-      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-      playsInSilentModeIOS: true,
-      shouldDuckAndroid: true,
-      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-      playThroughEarpieceAndroid: true,
-    });
+    // await Audio.setAudioModeAsync({
+    //   //allowsRecordingIOS: false,
+    //   interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+    //   playsInSilentModeIOS: true,
+    //   shouldDuckAndroid: true,
+    //   interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+    //   playThroughEarpieceAndroid: false,
+    // });
+
+    this.soundtrack = musicThings.songA;    
+    //await this.soundtrack.setPositionAsync(0);
 
     setInterval(() => this._onVolumeSliderValueChange(), 500);
-    this.playSoundtrack();
+    // this.playSoundtrack();
     this._askForPermissions();
   }
 

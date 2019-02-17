@@ -42,7 +42,7 @@ export default class AccelerometerSensor extends React.Component {
       if (sample.length >= 20) {
         sample.shift();
       }
-      console.log(standardDev(sample));
+     // console.log(standardDev(sample));
 
       if (standardDev(sample) < 0.01) {
         timer++;
