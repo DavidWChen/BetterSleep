@@ -356,7 +356,7 @@ export default class LinksScreen extends React.Component {
           </TouchableHighlight>
 
         </View>
-      </ScrollView>
+      </ScrollView>     
     );
   }
 

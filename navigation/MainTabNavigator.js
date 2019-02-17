@@ -8,9 +8,9 @@ import MusicScreen from '../screens/MusicScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import GyroScreen from '../screens/GyroScreen';
 
-const HomeStack = createStackNavigator({
+export const HomeStack = createStackNavigator({
   Home: HomeScreen,
-  Music: MusicScreen
+  // Music: MusicScreen
 });
 
 HomeStack.navigationOptions = {
@@ -70,5 +70,8 @@ SettingsStack.navigationOptions = {
 };
 
 
-export default HomeStack;
+export const MainStack = createBottomTabNavigator({
+  MusicStack,
+  SettingsStack,
+});
 
