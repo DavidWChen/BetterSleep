@@ -271,6 +271,7 @@ export default class LinksScreen extends React.Component {
       <ScrollView style={styles.container}>
         <View style={styles.musicBGcontainer}>
           <Image style={styles.musicBG} source={require("../assets/images/musicbg.jpg")}></Image>
+          <Text style={styles.musicText}>Music</Text>
         </View>
         <View style={styles.playStopContainer}>
 
@@ -345,8 +346,15 @@ const styles = StyleSheet.create({
     borderRadius: 200,
   },
   musicBGcontainer: {
+    marginBottom: 80,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  musicText: {
+    textAlign: 'center',
+    fontSize: 50,
+    color: '#ffe0da',
+    fontFamily: 'coiny',
   },
   playStopContainer: {
     flexDirection: 'row',
