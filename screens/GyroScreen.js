@@ -24,7 +24,7 @@ export default class AccelerometerSensor extends React.Component {
       this._unsubscribe();
     } else {
       this._subscribe();
-    }
+    } 
   }
 
   _slow = () => {

@@ -4,6 +4,9 @@ import { ExpoLinksView } from '@expo/samples';
 import { Constants, FileSystem, Video, Audio, Asset, Permissions } from 'expo';
 import { FontAwesome, Feather } from '@expo/vector-icons';
 
+import { _subscribe } from '../GyroInstance';
+
+
 
 class Icon {
   constructor(module, width, height) {
@@ -201,7 +204,7 @@ export default class LinksScreen extends React.Component {
       },
     };
     console.log("fetching result");
-    console.log({ options })
+
     return fetch(apiUrl, options);
   }
 
@@ -231,10 +234,16 @@ export default class LinksScreen extends React.Component {
     let sendresult;
     try {
       sendresult = await this._sendAudioAsync(info.uri);
-      console.log({ sendresult });
 
-      console.log("Here is the body text");
-      console.log( sendresult._bodyText);
+      console.log( sendresult["_bodyText"], 'start_app', sendresult["_bodyText"] === 'start_app');
+      console.log(typeof "start_app");
+      // console.lof"start_app"
+      if (sendresult["_bodyText"] === '"start_app"') {
+        console.log("starting");
+        _subscribe();
+        this._onPlayPausePressed(); 
+      }
+
   } catch({ message }) {
     console.log({ message });
     } finally {

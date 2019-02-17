@@ -69,4 +69,6 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+
 export default HomeStack;
+

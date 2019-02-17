@@ -13,13 +13,15 @@ import {
 import { WebBrowser, Font } from 'expo';
 
 import { MonoText } from '../components/StyledText';
-
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
 
-
+  _startListening = () => {
+    global.volume=100;
+    this.props.navigation.push('Music');
+  };
 
   render() {
     return (
@@ -33,9 +35,11 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.BetterSleepDescription}>- Some interesting stuff ...</Text>
           </View>
           <View style={styles.activateButtonContainer} >
-            <TouchableOpacity
-              onPress={() => this.props.navigation.push('Music')}
-              style={styles.activateButton}>
+
+            <TouchableOpacity 
+              style={styles.activateButton}
+              onPress={this._startListening}
+            >
               <Text style={styles.activateButtonText}>Play Music</Text>
             </TouchableOpacity>
           </View>
