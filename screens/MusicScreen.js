@@ -38,6 +38,8 @@ export default class LinksScreen extends React.Component {
         extension: '.m4a',
         outputFormat: Expo.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
         audioEncoder: Expo.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+        // sampleRate: 16000,
+        // numberOfChannels: 1,
         sampleRate: 44100,
         numberOfChannels: 2,
         bitRate: 128000,
@@ -48,6 +50,8 @@ export default class LinksScreen extends React.Component {
         outputFormat: Expo.Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
         sampleRate: 44100,
         numberOfChannels: 2,
+        //sampleRate: 16000,
+        //numberOfChannels: 1,
         bitRate: 128000,
         linearPCMBitDepth: 16,
         linearPCMIsBigEndian: false,
@@ -157,6 +161,39 @@ export default class LinksScreen extends React.Component {
       isLoading: false,
     });
   }
+  async _sendAudioAsync(uri) {
+    // CHNAGE THIS !!!!
+    let apiUrl = 'http://10.19.189.116:3000';
+    // 
+
+    // Note:
+    // Uncomment this if you want to experiment with local server
+    //
+    // if (Constants.isDevice) {
+    //   apiUrl = `https://your-ngrok-subdomain.ngrok.io/upload`;
+    // } else {
+    //   apiUrl = `http://localhost:3000/upload`
+    // }
+
+    let uriParts = uri.split('.');
+    let fileType = uriParts[uriParts.length - 1];
+
+    let formData = new FormData();
+    formData.append('audio', {
+      uri,                     
+    });
+
+    let options = {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+    };
+    console.log("fetching result");
+    return fetch(apiUrl, options);
+  }
 
   async _stopRecordingAndEnablePlayback() {
     this.setState({
@@ -180,10 +217,20 @@ export default class LinksScreen extends React.Component {
     //   },
     //   this._updateScreenForSoundStatus
     // );
+    try {
+    let sendresult = await this._sendAudioAsync(info.uri);  
+
+    console.log(sendresult);
     this.setState({
       isLoading: false,
     });
+  } catch({ message }) {
+    console.log({ message });
   }
+    
+  }
+
+
 
   async componentDidMount() {
     await Audio.setAudioModeAsync({
