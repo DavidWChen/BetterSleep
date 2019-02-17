@@ -22,7 +22,10 @@ export default class App extends Component {
     this.setState({ ifNewTime: false })
     global.hour = this.state.selectedHours;
     global.minutes = this.state.selectedMinutes;
-    alert("your time is set to be")
+    var start_hour_str = global.hour < 10 ? '0' + global.hour : global.hour;
+    var start_min_str = global.minutes < 10 ? '0' + global.minutes : global.minutes;
+    var astr = "your time is set to be " + start_hour_str + ':' + start_min_str;
+    alert(astr);
   }
 
   generateAlarmTimeText() {
