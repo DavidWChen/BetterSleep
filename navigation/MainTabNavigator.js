@@ -59,8 +59,8 @@ SettingsStack.navigationOptions = {
 
 
 export const MainStack = createBottomTabNavigator({
-  MusicStack,
   HomeStack,
+  MusicStack,
   SettingsStack,
 });
 
