@@ -287,6 +287,10 @@ export default class LinksScreen extends React.Component {
     return (
 
       <ScrollView style={styles.container}>
+        <View style={styles.musicBGcontainer}>
+          <Image style={styles.musicBG} source={require("../assets/images/musicbg1.png")}></Image>
+          <Text style={styles.musicText}>Music</Text>
+        </View>
         <View style={styles.playStopContainer}>
 
           <TouchableHighlight
@@ -294,7 +298,7 @@ export default class LinksScreen extends React.Component {
             style={styles.wrapper}
             onPress={this._onPlayPausePressed}
           >
-            <Feather name={this.state.isPlaying ? "pause-circle" : "play-circle"} size={60} color="black" style={styles.iconStyle} />
+            <Feather name={this.state.isPlaying ? "pause-circle" : "play-circle"} size={60} color="white" style={styles.iconStyle} />
 
           </TouchableHighlight>
 
@@ -304,19 +308,13 @@ export default class LinksScreen extends React.Component {
               style={styles.wrapper}
               onPress={this._onRecordPressed}
               disabled={this.state.isLoading}>
-              <Feather name={"mic"} size={60} color="black" style={styles.iconStyle} />
+              <Feather name={"mic"} size={60} color="white" style={styles.iconStyle} />
             </TouchableHighlight>
             <View style={styles.recordingDataContainer}>
               <View />
-              <Text >
+              <Text style={styles.liveText}>
                 {this.state.isRecording ? 'LIVE' : ''}
               </Text>
-              <View >
-                <Image
-                  style={[styles.image, { opacity: this.state.isRecording ? 1.0 : 0.0 }]}
-                  source={ICON_RECORDING.module}
-                />
-              </View>
               <View />
             </View>
           </View>
@@ -327,7 +325,7 @@ export default class LinksScreen extends React.Component {
             style={styles.wrapper}
             onPress={this._onStopPressed}
           >
-            <Feather name={"stop-circle"} size={60} color="black" style={styles.iconStyle} />
+            <Feather name={"stop-circle"} size={60} color="white" style={styles.iconStyle} />
 
           </TouchableHighlight>
 
@@ -346,10 +344,34 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#000000',
   },
   iconStyle: {
     margin: 20,
+  },
+  liveText: {
+    color: 'red',
+    textAlign: 'center',
+    fontFamily: 'coiny',
+    fontSize: 30
+  },
+  musicBG: {
+    flex: 1,
+    marginTop: 30,
+    width: 220,
+    height: 220,
+    resizeMode: 'contain',
+  },
+  musicBGcontainer: {
+    marginBottom: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  musicText: {
+    textAlign: 'center',
+    fontSize: 50,
+    color: '#ffe0da',
+    fontFamily: 'coiny',
   },
   playStopContainer: {
     flexDirection: 'row',
