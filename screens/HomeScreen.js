@@ -19,7 +19,7 @@ export default class HomeScreen extends React.Component {
   };
 
   _startListening = () => {
-    global.volume=100;
+    global.volume = 100;
     this.props.navigation.push('Music');
   };
 
@@ -31,12 +31,13 @@ export default class HomeScreen extends React.Component {
             <Image source={require('../assets/images/sleepIcon.png')} style={styles.sleepIcon}>
 
             </Image>
-            <Text style={styles.BetterSleepTitle}>BetterSleep</Text>
-            <Text style={styles.BetterSleepDescription}>- Some interesting stuff ...</Text>
+            <Text style={styles.BetterSleepTitle}>Turn Down</Text>
+            <Text style={styles.BetterSleepTitleBottom}>For What?</Text>
+            <Text style={styles.BetterSleepDescription}>Better Sleep ...</Text>
           </View>
           <View style={styles.activateButtonContainer} >
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.activateButton}
               onPress={this._startListening}
             >
@@ -92,18 +93,26 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   BetterSleepTitle: {
-    marginTop: 25,
+    marginTop: 20,
     fontSize: 50,
     color: '#ffe0da',
     fontFamily: 'coiny',
   },
+  BetterSleepTitleBottom: {
+    fontSize: 50,
+    color: '#ffe0da',
+    fontFamily: 'coiny',
+    marginBottom: 20,
+  },
   BetterSleepDescription: {
     marginTop: 30,
-    fontSize: 18,
+    fontSize: 25,
     color: '#fff',
     marginLeft: '10%',
     marginRight: '10%',
     textAlign: 'center',
+    fontWeight: 'bold',
+    fontFamily: 'Baskerville',
     lineHeight: 30
   },
   contentContainer: {
@@ -117,8 +126,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activateButton: {
-    padding: 15,
-    borderRadius: 10,
+    padding: 10,
+    paddingTop: 25,
+    borderRadius: 20,
     textAlign: 'center',
     resizeMode: 'contain',
     backgroundColor: '#ffa447',
