@@ -35,9 +35,9 @@ export default class LinksScreen extends React.Component {
     }
     this.recordingSettings = {
        android: {
-        extension: '.m4a',
-        outputFormat: Expo.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
-        audioEncoder: Expo.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
+        extension: '.mp3',
+        outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
+        audioEncoder: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEGLAYER3,
         // sampleRate: 16000,
         // numberOfChannels: 1,
         sampleRate: 44100,
@@ -45,14 +45,15 @@ export default class LinksScreen extends React.Component {
         bitRate: 128000,
       },
       ios: {
-        extension: '.m4a',
-        audioQuality: Expo.RECORDING_OPTION_IOS_AUDIO_QUALITY_MAX,
-        outputFormat: Expo.Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
-        sampleRate: 44100,
-        numberOfChannels: 2,
+        extension: '.wav',
+        audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_LOW,
+        outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_LINEARPCM,
+        sampleRate: 16000,
+        numberOfChannels: 1,
         //sampleRate: 16000,
         //numberOfChannels: 1,
         bitRate: 128000,
+        bitRateStrategy: Audio.RECORDING_OPTION_IOS_BIT_RATE_STRATEGY_CONSTANT,
         linearPCMBitDepth: 16,
         linearPCMIsBigEndian: false,
         linearPCMIsFloat: false,
@@ -178,10 +179,13 @@ export default class LinksScreen extends React.Component {
     let uriParts = uri.split('.');
     let fileType = uriParts[uriParts.length - 1];
 
+    console.log({ uri })
     let formData = new FormData();
-    formData.append('audio', {
-      uri,                     
-    });
+    formData.append('file', {
+      uri,
+      name: `recording.${fileType}`,
+      type: `audio/${fileType}`,
+    }, `recording.${fileType}`);
 
     let options = {
       method: 'POST',
@@ -192,6 +196,7 @@ export default class LinksScreen extends React.Component {
       },
     };
     console.log("fetching result");
+    console.log({options})
     return fetch(apiUrl, options);
   }
 
@@ -217,15 +222,17 @@ export default class LinksScreen extends React.Component {
     //   },
     //   this._updateScreenForSoundStatus
     // );
+    let sendresult;
     try {
-    let sendresult = await this._sendAudioAsync(info.uri);  
-
-    console.log(sendresult);
+      sendresult = await this._sendAudioAsync(info.uri);
+      console.log({ sendresult });
+  } catch({ message }) {
+    console.log({ message });
+  } finally {
+    
     this.setState({
       isLoading: false,
     });
-  } catch({ message }) {
-    console.log({ message });
   }
     
   }
