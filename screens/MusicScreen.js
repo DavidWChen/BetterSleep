@@ -302,14 +302,13 @@ export default class LinksScreen extends React.Component {
         
 
       <ScrollView style={styles.container}>
-        <View >
-          <TouchableHighlight 
+        <View style={{ alignItems: 'flex-end' }}>
+          <TouchableHighlight
             underlayColor={BACKGROUND_COLOR}
             style={styles.wrapper}
             onPress={this._setAlarm}
           >
-            <MaterialIcons name={this.state.ifAlarm ? "alarm" : "alarm-off"} size={60} color="white" 
-              style={styles.alarm} 
+            <MaterialIcons name={this.state.ifAlarm ? "alarm" : "alarm-off"} size={60} color="white"
             />
           </TouchableHighlight>
         </View>
@@ -409,10 +408,5 @@ const styles = StyleSheet.create({
   },
   image: {
     backgroundColor: BACKGROUND_COLOR,
-  },
-  alarm: {
-    position: 'absolute', 
-    top: 0,
-    right: 0,
   },
 });
