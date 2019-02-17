@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
   BetterSleepDescription: {
     marginTop: 30,
     fontSize: 18,
-    fontFamily: 'serif',
     color: '#fff',
     marginLeft: '10%',
     marginRight: '10%',
