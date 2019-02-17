@@ -270,7 +270,7 @@ export default class LinksScreen extends React.Component {
 
       <ScrollView style={styles.container}>
         <View style={styles.musicBGcontainer}>
-          <Image style={styles.musicBG} source={require("../assets/images/musicbg.jpg")}></Image>
+          <Image style={styles.musicBG} source={require("../assets/images/musicbg1.png")}></Image>
           <Text style={styles.musicText}>Music</Text>
         </View>
         <View style={styles.playStopContainer}>
@@ -294,15 +294,9 @@ export default class LinksScreen extends React.Component {
             </TouchableHighlight>
             <View style={styles.recordingDataContainer}>
               <View />
-              <Text >
+              <Text style={styles.liveText}>
                 {this.state.isRecording ? 'LIVE' : ''}
               </Text>
-              <View >
-                <Image
-                  style={[styles.image, { opacity: this.state.isRecording ? 1.0 : 0.0 }]}
-                  source={ICON_RECORDING.module}
-                />
-              </View>
               <View />
             </View>
           </View>
@@ -332,10 +326,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#000005',
+    backgroundColor: '#000000',
   },
   iconStyle: {
     margin: 20,
+  },
+  liveText: {
+    color: 'red',
+    textAlign: 'center',
+    fontFamily: 'coiny',
+    fontSize: 30
   },
   musicBG: {
     flex: 1,
@@ -343,7 +343,6 @@ const styles = StyleSheet.create({
     width: 220,
     height: 220,
     resizeMode: 'contain',
-    borderRadius: 200,
   },
   musicBGcontainer: {
     marginBottom: 80,

@@ -74,7 +74,7 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000036',
+    backgroundColor: '#000025',
   },
   sleepIconContainer: {
     justifyContent: 'center',
