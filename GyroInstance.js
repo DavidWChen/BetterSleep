@@ -6,7 +6,7 @@ global.volume = 100;//better to see current volume
 //const math = require('mathjs');
 sample = [];
 timer = 0;
-//timerA=0;
+timerA=0;
 
   let state = {
     accelerometerData: {},
@@ -48,18 +48,39 @@ timer = 0;
           else { volume = 0; }
         }
       }
-      /*
+      
       var d = new Date();
-      if (global.alarm && global.startAlarm < currTime && currTime < global.endAlarm){
+      var h = d.getHours();
+      var m = d.getMinutes();
+
+      const end_hour = global.hour; 
+      const end_minute = global.minutes; 
+      var start_hour = end_hour; 
+      var start_minute = end_minute; 
+      if (end_minute >= 30) {
+        start_minute = end_minute - 30; 
+      }
+      else {
+        start_minute = end_minute + 30; 
+        start_hour = end_hour == 0? 23:start_hour-1;
+      }
+
+      start_time = start_hour*60 + start_minute;
+      curr_time = h*60 + m;
+      end_time = end_hour*60 + end_minute
+      start_time =  (start_time > end_time) ? start_time-60*24 : start_time;
+
+
+      if (global.ifAlarm && curr_time > start_time && curr_time < end_time){
         if (standardDev(sample) > 0.01){
           timerA++;
-          if (timer > 10) {
-            timer = 0;
+          if (timerA > 10) {
+            timerA=0;
             if (volume < 100) { volume += 5; }
             else { volume = 100; }
           }
         }
-      }*/
+      }
      
 
     });

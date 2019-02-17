@@ -156,10 +156,13 @@ export default class LinksScreen extends React.Component {
     if (this.state.ifAlarm){
       console.log("turn off");
       this.setState({ifAlarm: false});
+      global.ifAlarm = 0;
     }
     else {
       this.setState({ifAlarm: true});
-    console.log("turn on");}
+      console.log("turn on");
+      global.ifAlarm = 1;
+}
         
 
 
