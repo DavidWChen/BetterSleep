@@ -9,7 +9,7 @@ global.minutes = 0;
 
 export default class App extends Component {
   state = {
-    selectedHours: 0,
+    selectedMinutes: 0,
     //initial Hours
     selectedHours: 0,
     //initial Minutes
@@ -23,6 +23,26 @@ export default class App extends Component {
     alert("your time is set to be")
   }
 
+  generateAlarmTimeText(){
+
+    const end_hour = this.state.selectedHours; 
+    const end_minute = this.state.selectedMinutes; 
+    var start_hour = end_hour; 
+    var start_minute = end_minute; 
+    if (end_minute >= 30) {
+      start_minute = end_minute - 30; 
+    }
+    else {
+      start_minute = end_minute + 30; 
+      start_hour = end_hour == 0? 23:start_hour-1;
+    }
+    var start_hour_str = start_hour < 10 ? '0' + start_hour: start_hour;
+    var start_min_str = start_minute < 10 ? '0' + start_minute: start_minute;
+    var end_hour_str = end_hour < 10 ? '0' + end_hour: end_hour;
+    var end_minute_str = end_minute < 10 ? '0' + end_minute: end_minute;
+
+    return (<Text style = {styles.wakentext}> You will be waken up between {start_hour_str} : {start_min_str} and {end_hour_str}:{end_minute_str} </Text>)
+  }
   render() {
     const { selectedHours, selectedMinutes } = this.state;
     return (
@@ -46,6 +66,8 @@ export default class App extends Component {
         >
         <Text> Set Alarm </Text>
         </TouchableOpacity>
+
+        {this.generateAlarmTimeText()}
       </View>
     );
   }
@@ -64,4 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#DDDDDD',
     padding: 10
   },
+    wakentext: {
+      padding: 10
+    }
 });
