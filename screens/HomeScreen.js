@@ -33,7 +33,9 @@ export default class HomeScreen extends React.Component {
             <Text style={styles.BetterSleepDescription}>- Some interesting stuff ...</Text>
           </View>
           <View style={styles.activateButtonContainer} >
-            <TouchableOpacity style={styles.activateButton}>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.push('Music')}
+              style={styles.activateButton}>
               <Text style={styles.activateButtonText}>Play Music</Text>
             </TouchableOpacity>
           </View>
