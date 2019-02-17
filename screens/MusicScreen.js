@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, Text, View, StyleSheet, Button, TouchableHighlight, Image } from 'react-native';
 import { ExpoLinksView } from '@expo/samples';
 import { Constants, FileSystem, Video, Audio, Asset, Permissions } from 'expo';
+import { FontAwesome, Feather } from '@expo/vector-icons';
 
 
 class Icon {
@@ -36,7 +37,7 @@ export default class LinksScreen extends React.Component {
       isLoading: false,
     }
     this.recordingSettings = {
-       android: {
+      android: {
         extension: '.mp3',
         outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
         audioEncoder: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEGLAYER3,
@@ -120,13 +121,13 @@ export default class LinksScreen extends React.Component {
   };
 
   _onRecordPressed = () => {
-    console.log ("pressed record");
+    console.log("pressed record");
     if (this.state.isRecording) {
       this._stopRecordingAndEnablePlayback();
-      console.log ("its recording");
+      console.log("its recording");
     } else {
       this._stopPlaybackAndBeginRecording();
-      console.log ("its not recording");
+      console.log("its not recording");
     }
   };
 
@@ -134,12 +135,12 @@ export default class LinksScreen extends React.Component {
     if (status.canRecord) {
       this.setState({
         isRecording: status.isRecording,
-        
+
       });
     } else if (status.isDoneRecording) {
       this.setState({
         isRecording: false,
-        
+
       });
       if (!this.state.isLoading) {
         this._stopRecordingAndEnablePlayback();
@@ -148,11 +149,11 @@ export default class LinksScreen extends React.Component {
   };
 
   async _stopPlaybackAndBeginRecording() {
-    console.log ("in _stopPlaybackAndBeginRecording");
+    console.log("in _stopPlaybackAndBeginRecording");
     this.setState({
       isLoading: true,
     });
-  
+
     // if (this.recording !== null) {
     //   this.recording.setOnRecordingStatusUpdate(null);
     //   this.recording = null;
@@ -200,7 +201,7 @@ export default class LinksScreen extends React.Component {
       },
     };
     console.log("fetching result");
-    console.log({options})
+    console.log({ options })
     return fetch(apiUrl, options);
   }
 
@@ -214,6 +215,7 @@ export default class LinksScreen extends React.Component {
       // Do nothing -- we are already unloaded.
     }
     const info = await FileSystem.getInfoAsync(this.recording.getURI());
+
     console.log ("finsihed recording")
     console.log(`FILE INFO:`,info);
     await Audio.setAudioModeAsync({
@@ -225,21 +227,24 @@ export default class LinksScreen extends React.Component {
       interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
       playThroughEarpieceAndroid: true,
     });
+
     let sendresult;
     try {
       sendresult = await this._sendAudioAsync(info.uri);
       console.log({ sendresult });
+
       console.log("Here is the body text");
       console.log( sendresult._bodyText);
   } catch({ message }) {
     console.log({ message });
-  } finally {
-    
-    this.setState({
-      isLoading: false,
-    });
-  }  
+    } finally {
+      
+      this.setState({
+        isLoading: false,
+      });
+    }  
   }
+
 
   async componentDidMount() {
     // await Audio.setAudioModeAsync({
@@ -259,12 +264,13 @@ export default class LinksScreen extends React.Component {
     this._askForPermissions();
   }
 
-    _askForPermissions = async () => {
+  _askForPermissions = async () => {
     const response = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
     this.setState({
       haveRecordingPermissions: response.status === 'granted',
     });
   };
+
 
 
   render() {
@@ -273,34 +279,25 @@ export default class LinksScreen extends React.Component {
 
       <ScrollView style={styles.container}>
         <View style={styles.playStopContainer}>
+
           <TouchableHighlight
             underlayColor={BACKGROUND_COLOR}
             style={styles.wrapper}
             onPress={this._onPlayPausePressed}
           >
-            <Image
-              style={styles.image}
-              source={this.state.isPlaying ? ICON_PAUSE_BUTTON.module : ICON_PLAY_BUTTON.module}
-            />
-          </TouchableHighlight>
-          <TouchableHighlight
-            underlayColor={BACKGROUND_COLOR}
-            style={styles.wrapper}
-            onPress={this._onStopPressed}
-          >
-            <Image style={styles.image} source={ICON_STOP_BUTTON.module} />
+            <Feather name={this.state.isPlaying ? "pause-circle" : "play-circle"} size={60} color="black" style={styles.iconStyle} />
 
           </TouchableHighlight>
-        </View>
 
-        <TouchableHighlight
+          <View style={styles.recordContainer}>
+            <TouchableHighlight
               underlayColor={BACKGROUND_COLOR}
               style={styles.wrapper}
               onPress={this._onRecordPressed}
               disabled={this.state.isLoading}>
-              <Image style={styles.image} source={ICON_RECORD_BUTTON.module} />
-        </TouchableHighlight>
-        <View style={styles.recordingDataContainer}>
+              <Feather name={"mic"} size={60} color="black" style={styles.iconStyle} />
+            </TouchableHighlight>
+            <View style={styles.recordingDataContainer}>
               <View />
               <Text >
                 {this.state.isRecording ? 'LIVE' : ''}
@@ -312,7 +309,20 @@ export default class LinksScreen extends React.Component {
                 />
               </View>
               <View />
+            </View>
           </View>
+
+
+          <TouchableHighlight
+            underlayColor={BACKGROUND_COLOR}
+            style={styles.wrapper}
+            onPress={this._onStopPressed}
+          >
+            <Feather name={"stop-circle"} size={60} color="black" style={styles.iconStyle} />
+
+          </TouchableHighlight>
+
+        </View>
       </ScrollView>
     );
   }
@@ -329,7 +339,17 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#fff',
   },
-    image: {
+  iconStyle: {
+    margin: 20,
+  },
+  playStopContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  recordContainer: {
+    flexDirection: 'column',
+  },
+  image: {
     backgroundColor: BACKGROUND_COLOR,
   },
 });
